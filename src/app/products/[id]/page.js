@@ -1,5 +1,6 @@
+import LogoutButton from "./LogoutButton";
+
 export async function generateStaticParams() {
-  // Pre-generate product pages at build time for better performance
   const res = await fetch("https://dummyjson.com/products");
   const data = await res.json();
   return data.products.map((product) => ({
@@ -9,7 +10,7 @@ export async function generateStaticParams() {
 
 async function getProduct(id) {
   const res = await fetch(`https://dummyjson.com/products/${id}`, {
-    next: { revalidate: 60 }, // enable caching for product details too
+    next: { revalidate: 60 },
   });
   if (!res.ok) {
     throw new Error("Failed to fetch product details");
@@ -23,7 +24,11 @@ export default async function ProductDetailPage({ params }) {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>{product.title}</h1>
+      <h1>
+        {product.title} &nbsp;
+        <LogoutButton /> {/* ✅ Client Component here */}
+      </h1>
+
       <img
         src={product.thumbnail}
         alt={product.title}
@@ -34,12 +39,14 @@ export default async function ProductDetailPage({ params }) {
           borderRadius: "8px",
         }}
       />
+
       <img
         src="/images/download.jpg"
         width={400}
         style={{ borderRadius: "8px", marginTop: "20px" }}
         alt="batman image"
       />
+
       <p>{product.description}</p>
       <p>
         <strong>Price:</strong> ${product.price}
@@ -47,6 +54,7 @@ export default async function ProductDetailPage({ params }) {
       <p>
         <strong>Brand:</strong> {product.brand}
       </p>
+
       <a
         href="/products"
         style={{ color: "blue", textDecoration: "underline" }}
