@@ -2,7 +2,10 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata = {
-  title: "My Next.js App",
+  title: {
+    default: "Demo App",
+    template: "%s | Demo App",
+  },
   description: "Demo app",
 };
 

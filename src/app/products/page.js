@@ -9,6 +9,10 @@ async function getProducts() {
   }
   return res.json();
 }
+export const metadata = {
+  title: "Products Page",
+  description: "Browse our products",
+};
 
 export default async function ProductsPage() {
   const data = await getProducts();

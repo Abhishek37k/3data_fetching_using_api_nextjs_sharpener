@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "Home Page",
+  description: "Welcome to our store",
+};
+
 export default function HomePage() {
   return (
     <div style={{ padding: '20px' }}>

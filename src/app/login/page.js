@@ -2,59 +2,60 @@
 
 import React, { useState } from "react";
 import "./page.css";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
+
 function page() {
-  const [formvalues, setFormvalues] = useState({email: "", password: ""});
-  const router  = useRouter();
+  const [formvalues, setFormvalues] = useState({ email: "", password: "" });
+  const router = useRouter();
 
   const H1 = ({ children }) => <h1 className="heading">{children}</h1>;
 
-const validate=()=>{
-  let err = {};
-  if ( !formvalues.email ){
-    err.email = "Email is required";
-  } else if (!/\S+@\S+\.\S+/.test(formvalues.email)){
-    err.email = "Email is invalid";
-  }     
-  if (!formvalues.password){
-    err.password = "Password is required";
-  }     
+  const validate = () => {
+    let err = {};
+    if (!formvalues.email) {
+      err.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formvalues.email)) {
+      err.email = "Email is invalid";
+    }
+    if (!formvalues.password) {
+      err.password = "Password is required";
+    }
 
-  if ( formvalues.password.length < 6 ){
-    err.password = "Password must be at least 6 characters";
-  }   
+    if (formvalues.password.length < 6) {
+      err.password = "Password must be at least 6 characters";
+    }
 
-  return err;
+    return err;
+  };
 
-}
-
-  const  submitFormHandler =async (e) => {
+  const submitFormHandler = async (e) => {
     e.preventDefault();
 
     let err = validate();
-    if ( Object.keys(err).length ) {
-      alert( Object.values(err).join("\n") );
+    if (Object.keys(err).length) {
+      alert(Object.values(err).join("\n"));
       return;
     }
     console.log(formvalues);
 
-
-
-    const res = await fetch('/api/login',{
-      method: 'POST',
+    const res = await fetch("/api/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: formvalues.email, password: formvalues.password })
+      body: JSON.stringify({
+        email: formvalues.email,
+        password: formvalues.password,
+      }),
     });
 
-     setFormvalues({ email: "", password: "" });
+    setFormvalues({ email: "", password: "" });
 
     if (res.ok) {
       const data = await res.json();
       console.log(data);
       alert("Login successful");
-      router.push('/products');
+      router.push("/products");
     } else {
       alert("Login failed");
     }
@@ -65,7 +66,7 @@ const validate=()=>{
       <div className="form-box">
         <H1>Login Page</H1>
 
-        <form className="form"  onSubmit={submitFormHandler}>
+        <form className="form" onSubmit={submitFormHandler}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -88,9 +89,7 @@ const validate=()=>{
             }
           />
 
-          <button type="submit">
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>
